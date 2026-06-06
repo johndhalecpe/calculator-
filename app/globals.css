@@ -167,6 +167,14 @@ body {
   50% { transform: translateY(-10px); }
 }
 
+/* Side-by-side layout */
+.side-by-side {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 24px;
+}
+
 /* Calculator body */
 .calculator {
   width: 340px;
@@ -328,16 +336,20 @@ body {
   transform: translateY(-2px);
 }
 
-/* Equals button - full width space bar style */
-.btn-equals {
-  grid-column: 1 / -1;
+/* Bottom row buttons (C and =) */
+.btn-bottom {
   aspect-ratio: unset;
+  height: 68px;
+}
+
+/* Equals button */
+.btn-equals {
+  grid-column: span 3;
   background: var(--btn-equals);
   color: #ffffff;
   font-size: 1.75rem;
   font-weight: 800;
   border-radius: 16px;
-  height: 68px;
   width: 100%;
   box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
   letter-spacing: 0.15em;
@@ -408,12 +420,14 @@ body {
 
 /* History panel */
 .history-section {
-  margin-top: 24px;
   background: var(--history-bg);
   border: 1px solid rgba(100, 140, 255, 0.15);
   border-radius: 16px;
   padding: 16px;
   backdrop-filter: blur(10px);
+  min-width: 200px;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .history-title {
@@ -455,8 +469,11 @@ body {
 .history-item:nth-child(1) { opacity: 1; }
 .history-item:nth-child(2) { opacity: 0.85; }
 .history-item:nth-child(3) { opacity: 0.7; }
-.history-item:nth-child(4) { opacity: 0.5; }
-.history-item:nth-child(5) { opacity: 0.3; }
+.history-item:nth-child(4) { opacity: 0.6; }
+.history-item:nth-child(5) { opacity: 0.5; }
+.history-item:nth-child(6) { opacity: 0.4; }
+.history-item:nth-child(7) { opacity: 0.3; }
+
 
 /* Empty history state */
 .history-empty {
@@ -553,5 +570,9 @@ body {
   
   .app-name {
     font-size: 1.25rem;
+  }
+
+  .btn-bottom {
+    height: 56px;
   }
 }
