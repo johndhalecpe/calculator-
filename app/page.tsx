@@ -3,7 +3,7 @@ import { useState } from "react";
 import { addInput, isOperator, doubleOperator, equals } from "./logic";
 
 export default function Home() {
-  const appName = "Calcu";
+  const appName = "NEXT.Calc";
   const buttons = [
     "7","8","9","X",
     "4","5","6","/",
@@ -11,11 +11,11 @@ export default function Home() {
     "C","0",".","-",
   ];
 
-  const [display, setDisplay] = useState("0");
+  const [display, setDisplay] = useState<string>("0");
   const [history, setHistory] = useState<string[]>([]);
   const [mode, setMode] = useState<"typing" | "result">("typing");
 
-  const handleClick = (value: string) => {
+  const handleClick = (value: string ) => {
     if (value === "X") {
       if (mode === "result") {
         setDisplay("0");
@@ -39,23 +39,20 @@ export default function Home() {
       setMode("typing");
       return;
     }
-
-    if (doubleOperator(value, display)) return;
-
+    if (doubleOperator(value, display)) 
+      return;
     if (value === "=") {
       const result = equals(display);
       setHistory((prev) => [`${display} = ${result}`, ...prev].slice(0, 7));
-      setDisplay(result);
+      setDisplay(String(result));
       setMode("result");
       return;
     }
-
     if (display === "Error") {
       setDisplay(value);
       setMode("typing");
       return;
     }
-
     setDisplay((prev) => addInput(prev, value));
   };
 

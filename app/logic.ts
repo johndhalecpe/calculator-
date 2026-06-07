@@ -11,7 +11,7 @@ export function isOperator(value: string): boolean {
 }
 //checks if the last character and the current input are both operators,
 //  if so it returns true to prevent adding another operator
-export function doubleOperator(value: string, prev: string): boolean {
+export function doubleOperator(value: string , prev: string): boolean {
   const lastChar = prev.slice(-1);
   if (isOperator(value) && isOperator(lastChar)) {
     return true;
@@ -19,10 +19,11 @@ export function doubleOperator(value: string, prev: string): boolean {
   return false;
 }
 //calculates what displays
-export function equals(value: string): string {
+export function equals(value: string): number | string {
   try {
     const result = eval(value);
-    return String(result);
+    // make result number to limit the float then make it a string again.
+    return Number(parseFloat(result.toFixed(8).toString()));
   } catch {
     return "Error";
   }
