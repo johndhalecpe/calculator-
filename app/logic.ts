@@ -22,8 +22,10 @@ export function doubleOperator(value: string , prev: string): boolean {
 export function equals(value: string): number | string {
   try {
     const result = eval(value);
+    //added NaN error fix :>
+     if (isNaN(result)) return "Error";
     // make result number to limit the float then make it a string again.
-    return Number(parseFloat(result.toFixed(8).toString()));
+    return Number(parseFloat(result.toFixed(3).toString()));
   } catch {
     return "Error";
   }

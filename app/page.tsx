@@ -3,7 +3,7 @@ import { useState } from "react";
 import { addInput, isOperator, doubleOperator, equals } from "./logic";
 
 export default function Home() {
-  const appName = "NEXT.Calc";
+  const appName = "CALCULATOR NOIR";
   const buttons = [
     "7","8","9","X",
     "4","5","6","/",
@@ -36,24 +36,32 @@ export default function Home() {
 
     if (mode === "result") {
       setDisplay(isOperator(value) ? (prev) => prev + value : value);
+      //added non input if errors
+      if (mode === "result" && display ==="Error"){
+        setDisplay("0");
+        setMode("typing");
+        return;
+      }
       setMode("typing");
       return;
     }
     if (doubleOperator(value, display)) 
       return;
+    
+    
+    setDisplay((prev) => addInput(prev, value));
     if (value === "=") {
       const result = equals(display);
-      setHistory((prev) => [`${display} = ${result}`, ...prev].slice(0, 7));
       setDisplay(String(result));
+      if (result === "Error" || result === "NaN") {
+        setDisplay(result);
+        setMode("result");
+        return;
+      };
+      setHistory((prev) => [`${display} = ${result}`, ...prev].slice(0, 7));
       setMode("result");
       return;
     }
-    if (display === "Error") {
-      setDisplay(value);
-      setMode("typing");
-      return;
-    }
-    setDisplay((prev) => addInput(prev, value));
   };
 
   const getButtonClass = (btn: string) => {
@@ -64,25 +72,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Sky background */}
-      <div className="sky-bg">
-        <div className="stars" />
-        <div className="cloud cloud-1" />
-        <div className="cloud cloud-2" />
-        <div className="cloud cloud-3" />
-        <div className="cloud cloud-4" />
-        <div className="cloud cloud-5" />
-      </div>
-
-      {/* Floating particles */}
-      {[...Array(6)].map((_, i) => (
-        <div key={i} className="particle" />
-      ))}
-
-      {/* Main content */}
       <div className="main-container">
-        <div className="ambient-glow" />
-
         <div className="side-by-side">
           <div className="calculator-wrapper">
             <div className="calculator">
@@ -115,12 +105,6 @@ export default function Home() {
                   +
                 </button>
               </div>
-            </div>
-
-            <div className="calc-clouds">
-              <div className="calc-cloud calc-cloud-1" />
-              <div className="calc-cloud calc-cloud-2" />
-              <div className="calc-cloud calc-cloud-3" />
             </div>
           </div>
 

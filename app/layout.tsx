@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Calcu - Flying Calculator",
-  description: "A modern calculator floating in the sky with an immersive flying experience",
+  title: "CALCULATOR NOIR",
+  description: "A minimal monochrome calculator",
 };
 
 export default function RootLayout({
