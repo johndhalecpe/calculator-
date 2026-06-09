@@ -15,55 +15,85 @@ export default function Home() {
   const [history, setHistory] = useState<string[]>([]);
   const [mode, setMode] = useState<"typing" | "result">("typing");
 
-  const handleClick = (value: string ) => {
-    if (value === "X") {
-      if (mode === "result") {
-        setDisplay("0");
-        setMode("typing");
-        return;
-      } else {
-      setDisplay((prev) => (prev.length > 1 ? prev.slice(0, -1) : "0"));
-      setMode("typing");
-      return;
-      }
-    }
-
-    if (value === "C") {
+  const handleClick = (whichButtonisClicked: string ) => {
+    const eraseButton = () => {
+        if (mode === "result") {
+          setDisplay("0");
+          setMode("typing");
+          return;
+        } else {
+          setDisplay((previousDisplayedValue) =>
+            previousDisplayedValue.length > 1
+              ? previousDisplayedValue.slice(0, -1)
+              : "0",
+          );
+          setMode("typing");
+          return;
+        }
+    };
+    const clearButton = () => {
       setDisplay("0");
       setMode("typing");
       return;
-    }
-
-    if (mode === "result") {
-      setDisplay(isOperator(value) ? (prev) => prev + value : value);
-      //added non input if errors
-      if (mode === "result" && display ==="Error"){
+    };
+    const resultEventHandler = () => {
+      // handle error state first
+      if (display === "Error") {
         setDisplay("0");
         setMode("typing");
         return;
       }
+      setDisplay(
+        isOperator(whichButtonisClicked)
+          ? (prev) => prev + whichButtonisClicked
+          : whichButtonisClicked,
+      );
       setMode("typing");
-      return;
-    }
-    if (doubleOperator(value, display)) 
-      return;
-    
-    
-    setDisplay((prev) => addInput(prev, value));
-    if (value === "=") {
-      const result = equals(display);
-      setDisplay(String(result));
-      if (result === "Error" || result === "NaN") {
-        setDisplay(result);
+    };
+    const doubleOperatorChecker = () =>{
+      if (doubleOperator(whichButtonisClicked, display)) return;
+      setDisplay((initialDisplayValue) =>
+        addInput(initialDisplayValue, whichButtonisClicked),
+      );
+    };
+    const equal_Solving = () => {
+        const result = equals(display);
+        setDisplay(String(result));
+        if (result === "Error") {
+          setDisplay(result);
+          setMode("result");
+          return;
+        }
+        setHistory((initialDisplayValue) =>
+          [`${display} = ${result}`, ...initialDisplayValue].slice(0, 7),
+        );
         setMode("result");
         return;
-      };
-      setHistory((prev) => [`${display} = ${result}`, ...prev].slice(0, 7));
-      setMode("result");
+    };
+    if (whichButtonisClicked === "X") {
+      eraseButton();
+      return
+    };
+    if (whichButtonisClicked === "C") {
+      clearButton();
+      return
+    };
+    if (whichButtonisClicked === "=") {
+      equal_Solving();
+      return
+    };
+    if (mode === "result") {
+      resultEventHandler();
       return;
-    }
+    };
+    if (isOperator(whichButtonisClicked)) {
+      doubleOperatorChecker();
+      return;
+    };
+    setDisplay((previousDisplayedValue) =>
+      addInput(previousDisplayedValue, whichButtonisClicked),
+    );
   };
-
   const getButtonClass = (btn: string) => {
     if (btn === "C" || btn === "X") return "calc-btn btn-clear";
     if (["+", "-", "*", "/"].includes(btn)) return "calc-btn btn-operator";

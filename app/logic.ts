@@ -1,27 +1,28 @@
-export function addInput(prev: string, input: string): string {
+export function addInput(prevInput: string, newInput: string): string {
   //replace the default "0" with the first input
-  if (prev === "0") {
-    return input;
+  if (prevInput === "0") {
+    return newInput;
   }
-  return prev + input;
+  return prevInput + newInput;
 }
 //checking if operator
-export function isOperator(value: string): boolean {
-  return ["+", "-", "*", "/", "=", "C"].includes(value);
+export function isOperator(input: string): boolean {
+  return ["+", "-", "*", "/", "=", "C", "."].includes(input);
 }
+
 //checks if the last character and the current input are both operators,
 //  if so it returns true to prevent adding another operator
-export function doubleOperator(value: string , prev: string): boolean {
-  const lastChar = prev.slice(-1);
-  if (isOperator(value) && isOperator(lastChar)) {
+export function doubleOperator(input: string , prevInput: string): boolean {
+  const lastChar = prevInput.slice(-1);
+  if (isOperator(input) && isOperator(lastChar)) {
     return true;
   }
   return false;
 }
 //calculates what displays
-export function equals(value: string): number | string {
+export function equals(currentDisplay: string): number | string {
   try {
-    const result = eval(value);
+    const result = eval(currentDisplay);
     //added NaN error fix :>
      if (isNaN(result)) return "Error";
     // make result number to limit the float then make it a string again.
