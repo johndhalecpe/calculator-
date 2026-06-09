@@ -7,9 +7,8 @@ export function addInput(prevInput: string, newInput: string): string {
 }
 //checking if operator
 export function isOperator(input: string): boolean {
-  return ["+", "-", "*", "/", "=", "C", "."].includes(input);
+  return ["+", "-", "*", "/", "=", "C"].includes(input);
 }
-
 //checks if the last character and the current input are both operators,
 //  if so it returns true to prevent adding another operator
 export function doubleOperator(input: string , prevInput: string): boolean {
@@ -31,3 +30,4 @@ export function equals(currentDisplay: string): number | string {
     return "Error";
   }
 }
+
