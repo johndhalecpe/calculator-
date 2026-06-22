@@ -1,0 +1,10 @@
+{
+"type": "module",
+"scripts": {
+"dev": "node bmiCalculator.ts && tsc" ,
+"tsc": "tsc --noEmit"
+},
+"devDependencies": {
+"typescript": "^5.9.3"
+}
+}
